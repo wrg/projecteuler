@@ -1,20 +1,25 @@
 package main
  
-import "fmt"
+import (
+  "fmt"
+  "euler"
+)
  
 func main() {
-    demoPerm(10)
+    demoPerm(4)
 }
  
 func demoPerm(n int) {
     // create a set to permute.  for demo, use the integers 1..n.
     s := make([]int, n)
-    for i := range s {
-        s[i] = i
-    }
+    s[0] = 1
+    s[1] = 4
+    s[2] = 8
+    s[3] = 7
     // permute them, calling a function for each permutation.
     // for demo, function just prints the permutation.
-    permute(s, func(p []int) { fmt.Println(p) })
+    ret := euler.Permute(s)
+    fmt.Println(ret)
 }
  
 // permute function.  takes a set to permute and a function

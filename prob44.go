@@ -2,37 +2,44 @@ package main
 
 import (
    "fmt"
+   "math"
 )
 
-var Pentagonal []bool
-
-func MakePent(s int) {
-   s = s * 2
-   Pentagonal = make([]bool,(s * (3 * s + 1))/2)
-   for x := 1;x < s; x++ {
-      p := (x * (3 * x + 1))/2
-      Pentagonal[p]=true
-   }
+func reverse_pent(n int) float64 {
+   p := math.Sqrt((float64(2 * n)/float64(3)) + ( float64(1) / float64(36) )) + ( float64(1) / float64(6) )
+   return p
 }
 
-func abs(n int) int {
-  if n < 0 {
-   return n - (n * 2)
-  }
-  return n
+func pent(n int) int {
+   return (n * ((3*n)-1))/2
+}
+
+func isPent(n int) bool {
+   r := int(math.Ceil(reverse_pent(n)))
+   if n == pent(r) {
+      return true
+   } 
+   return false
 }
 
 func main() {
-   max := 10000
-   MakePent(max)
-   for j := 1; j < max; j++ {
-     pj := (j * (3 * j + 1))/2
-     for k := j; k < max; k++ {
-      pk := (k * (3 * k + 1))/2
-      if Pentagonal[pj + pk] && Pentagonal[abs(pk - pj)] {
-         fmt.Printf("%d - %d = %d\n",pk,pj,pk-pj)
-         // k, j = max, max 
-      }
-     }
-   }
+  var plist = []int {}
+  for x := 1; x < 10000; x++ {
+    j := pent(x)
+    plist = append(plist,j)
+    if j > 12 {
+    for _, k := range plist {
+       if k != j {
+        sum := k + j
+        diff := j - k
+        if isPent(sum) {
+           // fmt.Printf("j = %d, k = %d, S = %d\n", j, k ,sum)
+           if isPent(diff) {
+           fmt.Printf("j = %d, k = %d, D = %d\n", j, k ,diff)
+           }
+        }
+       }
+    }
+    }
+  }
 }
